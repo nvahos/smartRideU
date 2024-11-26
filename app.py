@@ -1,4 +1,5 @@
 from flask import Flask, render_template_string
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -6,12 +7,33 @@ app = Flask(__name__)
 def home():
     # Información simulada de los buses
     buses = [
-        {"id": 1, "ruta": "Riomar -> Universidad del Norte", "ubicacion": [11.0199, -74.8505], "puestos": 5, "hora": "6:30 AM"},
-        {"id": 2, "ruta": "Norte-Centro Histórico -> Universidad del Norte", "ubicacion": [11.0041, -74.8069], "puestos": 2, "hora": "6:45 AM"},
-        {"id": 3, "ruta": "Suroccidente -> Universidad del Norte", "ubicacion": [10.9878, -74.7889], "puestos": 10, "hora": "7:00 AM"},
+        {
+            "id": 1,
+            "ruta": "Riomar -> Universidad del Norte",
+            "ubicacion": [11.0199, -74.8505],
+            "puestos": 5,
+            "hora": "6:30 AM",
+            "tiempo_restante": 10,  # minutos estimados
+        },
+        {
+            "id": 2,
+            "ruta": "Norte-Centro Histórico -> Universidad del Norte",
+            "ubicacion": [10.997395, -74.828013],
+            "puestos": 2,
+            "hora": "6:45 AM",
+            "tiempo_restante": 20,  # minutos estimados
+        },
+        {
+            "id": 3,
+            "ruta": "Suroccidente -> Universidad del Norte",
+            "ubicacion": [10.964931, -74.834326],
+            "puestos": 10,
+            "hora": "7:00 AM",
+            "tiempo_restante": 30,  # minutos estimados
+        },
     ]
 
-    # HTML actualizado con la funcionalidad corregida
+    # HTML con Leaflet.js y cálculo de tiempo
     html = '''
     <!DOCTYPE html>
     <html lang="es">
@@ -104,7 +126,8 @@ def home():
                 marker.bindPopup(`
                     <b>Ruta:</b> ${bus.ruta}<br>
                     <b>Puestos disponibles:</b> ${bus.puestos}<br>
-                    <b>Hora de salida:</b> ${bus.hora}
+                    <b>Hora de salida:</b> ${bus.hora}<br>
+                    <b>Tiempo restante:</b> ${bus.tiempo_restante} minutos
                 `);
             });
 
@@ -149,4 +172,5 @@ if __name__ == '__main__':
     from os import environ
     port = int(environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
 
