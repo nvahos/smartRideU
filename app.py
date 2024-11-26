@@ -8,10 +8,10 @@ def home():
     buses = [
         {"id": 1, "ruta": "Riomar -> Universidad del Norte", "ubicacion": [11.0199, -74.8505], "puestos": 5, "hora": "6:30 AM"},
         {"id": 2, "ruta": "Norte-Centro Histórico -> Universidad del Norte", "ubicacion": [11.0041, -74.8069], "puestos": 2, "hora": "6:45 AM"},
-        {"id": 3, "ruta": "Puerto Colombia -> Universidad del Norte", "ubicacion": [10.9878, -74.7889], "puestos": 10, "hora": "7:00 AM"},
+        {"id": 3, "ruta": "Suroccidente -> Universidad del Norte", "ubicacion": [10.9878, -74.7889], "puestos": 10, "hora": "7:00 AM"},
     ]
 
-    # HTML con Leaflet.js y todas las funcionalidades
+    # HTML actualizado con la funcionalidad corregida
     html = '''
     <!DOCTYPE html>
     <html lang="es">
@@ -58,20 +58,6 @@ def home():
                 padding: 0.5rem;
                 font-size: 1rem;
             }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 1rem;
-            }
-            table, th, td {
-                border: 1px solid #ddd;
-                padding: 0.8rem;
-                text-align: center;
-            }
-            th {
-                background-color: #007bff;
-                color: white;
-            }
         </style>
     </head>
     <body>
@@ -93,6 +79,10 @@ def home():
                     <option value="riomar">Riomar</option>
                     <option value="norte-centro">Norte-Centro Histórico</option>
                     <option value="puerto">Puerto Colombia</option>
+                    <option value="suroccidente">Suroccidente</option>
+                    <option value="suroriente">Suroriente</option>
+                    <option value="area-metropolitana">Área Metropolitana</option>
+                    <option value="otros-municipios">Otros Municipios</option>
                 </select>
                 <p id="recommendation" class="info"></p>
             </section>
@@ -102,12 +92,12 @@ def home():
             // Inicializar el mapa
             const map = L.map('map').setView([11.0204, -74.8506], 13);
 
-            // Agregar mapa base de OpenStreetMap
+            // Agregar el mapa base de OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Datos de buses proporcionados desde Flask
+            // Agregar marcadores para los buses
             const buses = {{ buses|tojson }};
             buses.forEach(bus => {
                 const marker = L.marker(bus.ubicacion).addTo(map);
@@ -118,7 +108,7 @@ def home():
                 `);
             });
 
-            // Función para actualizar la recomendación de la puerta
+            // Actualizar recomendación de puerta
             function updateRecommendation() {
                 const zone = document.getElementById('zone-selector').value;
                 const recommendation = document.getElementById('recommendation');
@@ -132,6 +122,18 @@ def home():
                         break;
                     case 'puerto':
                         recommendation.textContent = 'Puerta de ingreso: Puerta 11.';
+                        break;
+                    case 'suroccidente':
+                        recommendation.textContent = 'Puerta de ingreso: Puerta 4.';
+                        break;
+                    case 'suroriente':
+                        recommendation.textContent = 'Puerta de ingreso: Puerta 4 o 11.';
+                        break;
+                    case 'area-metropolitana':
+                        recommendation.textContent = 'Puerta de ingreso: Puerta 4.';
+                        break;
+                    case 'otros-municipios':
+                        recommendation.textContent = 'Puerta de ingreso: Puerta 4 o 7.';
                         break;
                     default:
                         recommendation.textContent = '';
