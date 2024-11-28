@@ -138,10 +138,10 @@ def home():
 
                 switch(zone) {
                     case 'riomar':
-                        recommendation.textContent = 'Puerta de ingreso: Puerta 4.';
+                        recommendation.textContent = 'Puerta de ingreso: Puerta 7.';
                         break;
                     case 'norte-centro':
-                        recommendation.textContent = 'Puerta de ingreso: Puerta 7.';
+                        recommendation.textContent = 'Puerta de ingreso: Puerta 4.';
                         break;
                     case 'puerto':
                         recommendation.textContent = 'Puerta de ingreso: Puerta 11.';
@@ -172,5 +172,4 @@ if __name__ == '__main__':
     from os import environ
     port = int(environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
 
